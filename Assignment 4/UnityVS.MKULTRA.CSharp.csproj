@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{26BA76DA-19DC-B14A-6CF0-8EF9881FE35F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace></RootNamespace>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityBuildTarget>StandaloneOSXIntel:4</UnityBuildTarget>
+    <UnityVersion>5.0.2f1</UnityVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_0_2;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_0_2;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\ConfigureWindows.cs" />
+    <Compile Include="Assets\NL\NLPrompt.cs" />
+    <Compile Include="Assets\PopupAttribute.cs" />
+    <Compile Include="Assets\Prolog\AlphaConvertibleTerm.cs" />
+    <Compile Include="Assets\Prolog\ArgumentCountException.cs" />
+    <Compile Include="Assets\Prolog\ArgumentTypeException.cs" />
+    <Compile Include="Assets\Prolog\BadProcedureException.cs" />
+    <Compile Include="Assets\Prolog\ByteCompiledRule.cs" />
+    <Compile Include="Assets\Prolog\CSVParser.cs" />
+    <Compile Include="Assets\Prolog\ConfigurationOptions.cs" />
+    <Compile Include="Assets\Prolog\Console.cs" />
+    <Compile Include="Assets\Prolog\CutStateSequencer.cs" />
+    <Compile Include="Assets\Prolog\DebugOverlay.cs" />
+    <Compile Include="Assets\Prolog\DelegateUtils.cs" />
+    <Compile Include="Assets\Prolog\DocumentationAttribute.cs" />
+    <Compile Include="Assets\Prolog\ELInspector.cs" />
+    <Compile Include="Assets\Prolog\ELNode.cs" />
+    <Compile Include="Assets\Prolog\ELNodeEnumerator.cs" />
+    <Compile Include="Assets\Prolog\ELNodeExclusionException.cs" />
+    <Compile Include="Assets\Prolog\ELProlog.cs" />
+    <Compile Include="Assets\Prolog\FunctionalExpression.cs" />
+    <Compile Include="Assets\Prolog\GenericArithmetic.cs" />
+    <Compile Include="Assets\Prolog\GoalException.cs" />
+    <Compile Include="Assets\Prolog\ISOPrologReader.cs" />
+    <Compile Include="Assets\Prolog\ISOPrologWriter.cs" />
+    <Compile Include="Assets\Prolog\Indexical.cs" />
+    <Compile Include="Assets\Prolog\InferenceStepsExceededException.cs" />
+    <Compile Include="Assets\Prolog\InstantiationException.cs" />
+    <Compile Include="Assets\Prolog\KB.cs" />
+    <Compile Include="Assets\Prolog\KnowledgeBase.cs" />
+    <Compile Include="Assets\Prolog\KnowledgeBaseEntry.cs" />
+    <Compile Include="Assets\Prolog\KnowledgeBaseRule.cs" />
+    <Compile Include="Assets\Prolog\KnowledgeBaseVariable.cs" />
+    <Compile Include="Assets\Prolog\LogicVariable.cs" />
+    <Compile Include="Assets\Prolog\Manual.cs" />
+    <Compile Include="Assets\Prolog\Metastructure.cs" />
+    <Compile Include="Assets\Prolog\PauseManager.cs" />
+    <Compile Include="Assets\Prolog\PositionTrackingTextReader.cs" />
+    <Compile Include="Assets\Prolog\PredicateArgumentIndexer.cs" />
+    <Compile Include="Assets\Prolog\PredicateIndicator.cs" />
+    <Compile Include="Assets\Prolog\PredicateInfo.cs" />
+    <Compile Include="Assets\Prolog\Prolog.cs" />
+    <Compile Include="Assets\Prolog\PrologChecker.cs" />
+    <Compile Include="Assets\Prolog\PrologConsole.cs" />
+    <Compile Include="Assets\Prolog\PrologContext.cs" />
+    <Compile Include="Assets\Prolog\PrologError.cs" />
+    <Compile Include="Assets\Prolog\PrologException.cs" />
+    <Compile Include="Assets\Prolog\PrologPrimitives.cs" />
+    <Compile Include="Assets\Prolog\PrologWarning.cs" />
+    <Compile Include="Assets\Prolog\Repl.cs" />
+    <Compile Include="Assets\Prolog\Shuffler.cs" />
+    <Compile Include="Assets\Prolog\SourceFileTracker.cs" />
+    <Compile Include="Assets\Prolog\StoragePool.cs" />
+    <Compile Include="Assets\Prolog\StringUtils.cs" />
+    <Compile Include="Assets\Prolog\Structure.cs" />
+    <Compile Include="Assets\Prolog\Symbol.cs" />
+    <Compile Include="Assets\Prolog\SyntaxErrorException.cs" />
+    <Compile Include="Assets\Prolog\Term.cs" />
+    <Compile Include="Assets\Prolog\TypeUtils.cs" />
+    <Compile Include="Assets\Prolog\UndefinedPredicateException.cs" />
+    <Compile Include="Assets\Prolog\UnityExtensionMethods.cs" />
+    <Compile Include="Assets\Sims\Concern.cs" />
+    <Compile Include="Assets\Sims\PropInfo.cs" />
+    <Compile Include="Assets\Sims\SimController.cs" />
+    <Compile Include="Assets\Sims\Sonifier.cs" />
+    <Compile Include="Assets\TileCore\BindingBehaviour.cs" />
+    <Compile Include="Assets\TileCore\CharacterSteeringController.cs" />
+    <Compile Include="Assets\TileCore\DockingRegion.cs" />
+    <Compile Include="Assets\TileCore\ExaminationContent.cs" />
+    <Compile Include="Assets\TileCore\GameObjectExtensions.cs" />
+    <Compile Include="Assets\TileCore\GeometryExtensions.cs" />
+    <Compile Include="Assets\TileCore\GizmoUtils.cs" />
+    <Compile Include="Assets\TileCore\MapOverlays.cs" />
+    <Compile Include="Assets\TileCore\PathPlanner.cs" />
+    <Compile Include="Assets\TileCore\PhysicalObject.cs" />
+    <Compile Include="Assets\TileCore\Room.cs" />
+    <Compile Include="Assets\TileCore\RowAnimation.cs" />
+    <Compile Include="Assets\TileCore\SequenceExtensions.cs" />
+    <Compile Include="Assets\TileCore\SpriteAnimation.cs" />
+    <Compile Include="Assets\TileCore\SpriteSheetAnimationController.cs" />
+    <Compile Include="Assets\TileCore\Tile.cs" />
+    <Compile Include="Assets\TileCore\TileMap.cs" />
+    <Compile Include="Assets\TileCore\TilePath.cs" />
+    <Compile Include="Assets\TileCore\TilePosition.cs" />
+    <Compile Include="Assets\TileCore\TileRect.cs" />
+    <Compile Include="Assets\TileCore\TileType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Copyright.txt" />
+    <None Include="Assets\CREDITS.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
+</Project>
