@@ -5,11 +5,6 @@
 %/perception/cs_class:1.
 %/perception/cs_class/Subclass/Coursename:-immediate_kind_of(Subclass,cs_class),immediate_kind_of(Coursename,Subclass).
 
-class_requires(eecs111, no_req).
-class_requires(eecs211, eecs111).
-class_requires(eecs212, eecs111).
-class_requires(eecs336, eecs211).
-
 string_class_name(no_req, "never used").
 string_class_name(eecs111,"eecs111").
 string_class_name(eecs211,"eecs211").
