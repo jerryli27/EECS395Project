@@ -5,11 +5,6 @@
 %/perception/cs_class:1.
 %/perception/cs_class/Subclass/Coursename:-immediate_kind_of(Subclass,cs_class),immediate_kind_of(Coursename,Subclass).
 
-class_requires(eecs111, no_req).
-class_requires(eecs211, eecs111).
-class_requires(eecs212, eecs111).
-class_requires(eecs336, eecs211).
-
 string_class_name(no_req, "never used").
 string_class_name(eecs111,"eecs111").
 string_class_name(eecs211,"eecs211").
@@ -62,6 +57,28 @@ strategy(check_requirements(Class),
     % class_requires(Class, Required),
     string_class_name(Required, ReqStr),
     append(["You need to take"], [ReqStr], SuggestString).
+
+strategy(check_requirements(Class),
+	say_string("Just go for it.")):-
+	forall(Prereq,related(Class,requires,Prereq),/perception/have_taken/Prereq).
+strategy(check_requirements(Class),
+	monolog(SuggestString)):-
+	findAllRequirements(Class,List),
+	append(["You need to take"], List, SuggestString).
+
+% How to find all requirements? 
+findAllRequirements(Class,List):-
+	findAllRequirementsForLists([Class],List).
+
+findAllRequirementsForLists([],[]).
+findAllRequirementsForLists([FirstCourse|Rest],List):-
+	findall(Prereq,related(FirstCourse, requires, Prereq),PrereqList),
+	findAllRequirementsForLists(PrereqList,NextLevelList),
+	findAllRequirementsForLists(Rest,NextList),
+	append(PrereqList,NextList,TempList),
+	append(TempList,NextLevelList,List).
+
+
 
 
 % hope to achieve: when the user types "i have taken eecsxxx",
