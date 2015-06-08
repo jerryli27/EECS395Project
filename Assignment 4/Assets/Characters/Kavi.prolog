@@ -53,3 +53,5 @@ personal_strategy(achieve(bedroom_empty),
 
 $global::fkey_command(alt-k, "Display Kavi's status") :-
    generate_character_debug_overlay($kavi).
+
+/perception/have_taken/no_req.

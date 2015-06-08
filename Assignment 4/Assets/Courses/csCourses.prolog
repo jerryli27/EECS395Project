@@ -5,7 +5,9 @@
 %/perception/cs_class:1.
 %/perception/cs_class/Subclass/Coursename:-immediate_kind_of(Subclass,cs_class),immediate_kind_of(Coursename,Subclass).
 
-string_class_name(no_req, "never used").
+/perception/have_taken/no_req.
+
+string_class_name(no_req, "no req").
 string_class_name(eecs111,"eecs111").
 string_class_name(eecs211,"eecs211").
 string_class_name(eecs212,"eecs212").
@@ -37,8 +39,6 @@ string_class_name(eecs371,"eecs371").
 string_class_name(eecs372,"eecs372").
 string_class_name(eecs394,"eecs394").
 
-/perception/have_taken/no_req.
-
 % when the user type "how do i take eecsxxx", run the following and respond accordingly
 % will add tree traversal later
 
@@ -49,36 +49,57 @@ strategy(how_do_i(want_to_take(Class)),
 	    check_requirements(Class))) :-
     is_a(Class, cs_class).
 
-strategy(check_requirements(Class),
-	 if((/perception/have_taken/Required),
-	    say_string("Just go for it."),
-	    monolog(SuggestString))) :-
-    related(Class, requires, Required),
-    % class_requires(Class, Required),
-    string_class_name(Required, ReqStr),
-    append(["You need to take"], [ReqStr], SuggestString).
+% strategy(check_requirements(Class),
+% 	say_string("Just go for it.")):-
+%     forall(related(Class,requires,Prereq),/perception/have_taken/Prereq).
 
 strategy(check_requirements(Class),
-	say_string("Just go for it.")):-
-	forall(Prereq,related(Class,requires,Prereq),/perception/have_taken/Prereq).
-strategy(check_requirements(Class),
-	monolog(SuggestString)):-
-	findAllRequirements(Class,List),
-	append(["You need to take"], List, SuggestString).
+	 if(forall(related(Class,requires,Prereq),/perception/have_taken/Prereq),
+	    say_string("Just go for it."),
+	    monolog(SuggestString))) :-
+    findAllRequirements(Class,ClassList),
+    remv_dup(ClassList, SimpleCList),
+    remv_taken(SimpleCList, ShorterCList),
+    string_class_names(ShorterCList, StringCList),
+    append(["You need to take"], StringCList, SuggestString).
 
 % How to find all requirements? 
 findAllRequirements(Class,List):-
-	findAllRequirementsForLists([Class],List).
+    findAllRequirementsForLists([Class],List).
 
 findAllRequirementsForLists([],[]).
 findAllRequirementsForLists([FirstCourse|Rest],List):-
-	findall(Prereq,related(FirstCourse, requires, Prereq),PrereqList),
-	findAllRequirementsForLists(PrereqList,NextLevelList),
-	findAllRequirementsForLists(Rest,NextList),
-	append(PrereqList,NextList,TempList),
-	append(TempList,NextLevelList,List).
+    findall(Prereq,related(FirstCourse, requires, Prereq),PrereqList),
+    findAllRequirementsForLists(PrereqList,NextLevelList),
+    findAllRequirementsForLists(Rest,NextList),
+    append(PrereqList,NextList,TempList),
+    append(TempList,NextLevelList,List).
+
+string_class_names([], []).
+string_class_names([Class|RestClass], [ClassStr|RestClassStr]) :-
+    string_class_name(Class, ClassStr),
+    string_class_names(RestClass, RestClassStr).
 
 
+remv_dup([], []).
+remv_dup([H|T], [H|T1]) :- 
+    remv(H, T, T2),
+    remv_dup(T2, T1).
+
+remv(_, [], []).
+remv(X, [X|T], T1) :- remv(X, T, T1).
+remv(X, [H|T], [H|T1]) :-
+    X \= H,
+    remv(X, T, T1).
+
+remv_taken([], []).
+remv_taken([C|Rest], R) :-
+    /perception/have_taken/C,
+    remv_taken(Rest, R).
+remv_taken([C|Rest],[C|R_Rest]):-
+    \+ /perception/have_taken/C,
+    remv_taken(Rest,R_Rest).
+    
 
 
 % hope to achieve: when the user types "i have taken eecsxxx",

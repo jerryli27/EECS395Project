@@ -17,7 +17,7 @@
 
 $global::fkey_command(alt-p, "Display player character's status") :-
    generate_character_debug_overlay($pc).
-/perception/cs_class:1.
+/perception/have_taken/no_req.
 
 %assert(/perception/cs_class/Subclass/Coursename)
 %	:-immediate_kind_of(Subclass,cs_class),immediate_kind_of(Coursename,Subclass).
