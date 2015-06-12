@@ -67,12 +67,20 @@ strategy(how_do_i(want_to_take(Class)),
 strategy(check_requirements(Class),
 	 if(forall(related(Class,requires,Prereq),/perception/have_taken/Prereq),
 	    say_string("Just go for it."),
-	    monolog(SuggestString))) :-
+	    output_requirements(CList))) :-
     findAllRequirements(Class,ClassList),
     remv_dup(ClassList, SimpleCList),
-    remv_taken(SimpleCList, ShorterCList),
-    string_class_names(ShorterCList, StringCList),
-    append(["You need to take"], StringCList, SuggestString).
+    remv_taken(SimpleCList, CList).
+
+strategy(output_requirements(CList),
+	 monolog(SuggestString)) :-
+    if(length(CList, 1),
+       (word_list(StringClass, CList),
+	append(["You need to take: "], StringClass, SuggestString)),
+       (length(CList,L),
+	ins("and", CList, L, CListAnd),
+	word_list(StringClass, CListAnd),
+	append(["You need to take: "], StringClass, SuggestString))).
 
 
 findAllRequirements(Class,List):-
@@ -125,9 +133,16 @@ strategy(how_do_i(want_to_satisfy(Req)),
 
 strategy(output_class_options(CList, Num),
 	 monolog(SuggestString)) :-
-    string_class_names(CList, StringCList),
+    % string_class_names(CList, StringCList),
     string_representation(Num, NumStr),
-    append(["You need to take", NumStr, "additional classes out of: "], StringCList, SuggestString).
+    word_list(Prefix, ["You need to take", NumStr, " additional classes out of: "]),
+    if(length(CList, 1),
+       (word_list(StringClass, CList),
+	append([Prefix], StringClass, SuggestString)),
+       (length(CList,L),
+	ins("and", CList, L, CListAnd),
+	word_list(StringClass, CListAnd),
+	append([Prefix], StringClass, SuggestString))).
 
 
 need_class_num(core, 5).
@@ -135,7 +150,6 @@ need_class_num(Req, 1) :-
     member(Req, [software_development, systems_breadth, ai_breadth, interfaces_breadth, theory_breadth]).
 need_class_num(Req, 3) :-
     member(Req, [security_depth, systems_depth, ai_depth, interfaces_depth, theory_depth]).
-need_class_num(project_course, 2).
 
 
 
@@ -156,12 +170,15 @@ strategy(answer_wh(player, Identity, _,
 	 property_value(Entity, description, Description),
 	 findall(Prereq,related(Entity, requires, Prereq),PrereqList),
 	 string_class_names(PrereqList, StringCList),
-	 if(length(StringCList,0),SuggestString is Description,
-	 	if(length(StringCList,1),
-	 	append([Description,"It requires:"], StringCList, SuggestString),
-	 		(length(StringCList,L),
-	 		ins("and",StringCList,L,ListWithAnd),
-	 		append([Description,"It requires:"], ListWithAnd, SuggestString)))).
+	 if(length(StringCList,0),
+	    SuggestString is Description,
+	    if(length(StringCList,1),
+	       (word_list(Classes, StringCList),
+		append([Description,"It requires:"], Classes, SuggestString)),
+	       (length(StringCList,L),
+	 	ins("and",StringCList,L,ListWithAnd),
+		word_list(ClassesWithAnd, ListWithAnd),
+	 	append([Description,"It requires:"], ClassesWithAnd, SuggestString)))).
 
 ins(Val,[H|List],Pos,[H|Res]):- Pos > 1, !, 
                                 Pos1 is Pos - 1, ins(Val,List,Pos1,Res). 
