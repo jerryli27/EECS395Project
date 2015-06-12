@@ -39,8 +39,22 @@ string_class_name(eecs371,"eecs371").
 string_class_name(eecs372,"eecs372").
 string_class_name(eecs394,"eecs394").
 
-% when the user type "how do i take eecsxxx", run the following and respond accordingly
-% will add tree traversal later
+string_class_names([], []).
+string_class_names([Class|RestClass], [ClassStr|RestClassStr]) :-
+    string_class_name(Class, ClassStr),
+    string_class_names(RestClass, RestClassStr).
+
+
+% 1. when the user types "i have taken eecsxxx",
+% take that information and assert the fact into the data base
+strategy(respond_to_dialog_act(assertion(player, $pc, take(player, Course, _), present, perfect)),
+	 begin(assert(/perception/have_taken/Course),
+	       say_string("Oh cool."))) :-
+    is_a(Course, cs_class).
+
+
+% 2. when the user type "how do i take eecsxxx", respond accordingly
+% will traversal all the prereqs of the prereqs
 
 player_question(want_to_take(Class)) --> [take, Class].
 strategy(how_do_i(want_to_take(Class)),
@@ -49,9 +63,6 @@ strategy(how_do_i(want_to_take(Class)),
 	    check_requirements(Class))) :-
     is_a(Class, cs_class).
 
-% strategy(check_requirements(Class),
-% 	say_string("Just go for it.")):-
-%     forall(related(Class,requires,Prereq),/perception/have_taken/Prereq).
 
 strategy(check_requirements(Class),
 	 if(forall(related(Class,requires,Prereq),/perception/have_taken/Prereq),
@@ -63,7 +74,7 @@ strategy(check_requirements(Class),
     string_class_names(ShorterCList, StringCList),
     append(["You need to take"], StringCList, SuggestString).
 
-% How to find all requirements? 
+
 findAllRequirements(Class,List):-
     findAllRequirementsForLists([Class],List).
 
@@ -74,12 +85,6 @@ findAllRequirementsForLists([FirstCourse|Rest],List):-
     findAllRequirementsForLists(Rest,NextList),
     append(PrereqList,NextList,TempList),
     append(TempList,NextLevelList,List).
-
-string_class_names([], []).
-string_class_names([Class|RestClass], [ClassStr|RestClassStr]) :-
-    string_class_name(Class, ClassStr),
-    string_class_names(RestClass, RestClassStr).
-
 
 remv_dup([], []).
 remv_dup([H|T], [H|T1]) :- 
@@ -99,13 +104,65 @@ remv_taken([C|Rest], R) :-
 remv_taken([C|Rest],[C|R_Rest]):-
     \+ /perception/have_taken/C,
     remv_taken(Rest,R_Rest).
-    
 
 
-% hope to achieve: when the user types "i have taken eecsxxx",
-% take that information and do the assertion like above
+% 3. when the user types "how do I satisfy xxx" (for example, core, ai_depth, etc)
+% list course options and the number of class he must take, if he haven't fulfill it
 
-strategy(respond_to_dialog_act(assertion(player, $pc, take(player, Course, _), present, perfect)),
-	 begin(assert(/perception/have_taken/Course),
-	       say_string("Oh cool."))) :-
-    is_a(Course, cs_class).
+player_question(want_to_satisfy(ReqSec)) --> [satisfy, ReqSec].
+
+strategy(how_do_i(want_to_satisfy(Req)),
+	 if((Still_Need < 1), 
+	    say_string("You have already satisfied this section."),
+	    output_class_options(YetTakenList, Still_Need))) :-
+    kind_of(Req, cs_class),
+    all(Class, is_a(Class, Req), ClassList),
+    length(ClassList, Len),
+    remv_taken(ClassList, YetTakenList),
+    length(YetTakenList, YetTakenLen),
+    need_class_num(Req, ReqNum),
+    Still_Need is ReqNum - (Len - YetTakenLen).
+
+strategy(output_class_options(CList, Num),
+	 monolog(SuggestString)) :-
+    string_class_names(CList, StringCList),
+    string_representation(Num, NumStr),
+    append(["You need to take", NumStr, "additional classes out of: "], StringCList, SuggestString).
+
+
+need_class_num(core, 5).
+need_class_num(Req, 1) :-
+    member(Req, [software_development, systems_breadth, ai_breadth, interfaces_breadth, theory_breadth]).
+need_class_num(Req, 3) :-
+    member(Req, [security_depth, systems_depth, ai_depth, interfaces_depth, theory_depth]).
+need_class_num(project_course, 2).
+
+
+
+% 4. answer correctly when asked "what is eecsxxx?"
+
+strategy(answer_wh(player, Identity, _,
+		   (be(Entity, Identity), is_a(Entity, entity))),
+	 monolog(Description)):-
+	 is_a(Entity,cs_class),
+	 property_value(Entity, description, Description),
+	 findall(Prereq,related(Entity, requires, Prereq),[no_req|_]),!.
+
+
+strategy(answer_wh(player, Identity, _,
+		   (be(Entity, Identity), is_a(Entity, entity))),
+	 monolog(SuggestString)):-
+	 is_a(Entity,cs_class),
+	 property_value(Entity, description, Description),
+	 findall(Prereq,related(Entity, requires, Prereq),PrereqList),
+	 string_class_names(PrereqList, StringCList),
+	 if(length(StringCList,0),SuggestString is Description,
+	 	if(length(StringCList,1),
+	 	append([Description,"It requires:"], StringCList, SuggestString),
+	 		(length(StringCList,L),
+	 		ins("and",StringCList,L,ListWithAnd),
+	 		append([Description,"It requires:"], ListWithAnd, SuggestString)))).
+
+ins(Val,[H|List],Pos,[H|Res]):- Pos > 1, !, 
+                                Pos1 is Pos - 1, ins(Val,List,Pos1,Res). 
+ins(Val, List, 1, [Val|List]).

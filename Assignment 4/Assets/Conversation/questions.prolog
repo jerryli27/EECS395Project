@@ -39,7 +39,8 @@ strategy(answer_wh(_Asker, Identity, _,
 
 strategy(answer_wh(Asker, Identity, _,
 		   (be(Entity, Identity), is_a(Entity, entity))),
-	 tell_about($me, Asker, Entity)).
+	 tell_about($me, Asker, Entity)):-
+	 \+ is_a(Entity,cs_class).
 
 strategy(answer_wh(_Asker, Identity, _,
 		   (be(player, Identity), is_a(player, person))),
